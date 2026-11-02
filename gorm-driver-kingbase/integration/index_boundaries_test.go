@@ -168,12 +168,14 @@ func TestPartialIndexPredicateAndUniqueness(t *testing.T) {
 					}
 					var predicate sql.NullString
 					var unique bool
-					var comment string
-					if err := tx.Raw("SELECT pg_get_expr(i.indpred,i.indrelid), i.indisunique, COALESCE(obj_description(c.oid,'pg_class'),'') FROM pg_catalog.pg_index i JOIN pg_catalog.pg_class c ON c.oid=i.indexrelid JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=? AND c.relname='kb_fix_partial'", a).Row().Scan(&predicate, &unique, &comment); err != nil {
+					// 未设置注释时目录返回 NULL。Oracle 默认把空字符串也视为 NULL，
+					// 因此用可空类型直接核对目录值，不通过 COALESCE(..., '') 扫描到 string。
+					var comment sql.NullString
+					if err := tx.Raw("SELECT pg_get_expr(i.indpred,i.indrelid), i.indisunique, obj_description(c.oid,'pg_class') FROM pg_catalog.pg_index i JOIN pg_catalog.pg_class c ON c.oid=i.indexrelid JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=? AND c.relname='kb_fix_partial'", a).Row().Scan(&predicate, &unique, &comment); err != nil {
 						t.Fatal(err)
 					}
-					if !predicate.Valid || !strings.Contains(predicate.String, "active") || unique != tc.unique || comment != tc.comment {
-						t.Fatalf("partial index predicate=%v unique=%t comment=%q want unique=%t comment=%q", predicate, unique, comment, tc.unique, tc.comment)
+					if !predicate.Valid || !strings.Contains(predicate.String, "active") || unique != tc.unique || comment.Valid != (tc.comment != "") || comment.String != tc.comment {
+						t.Fatalf("partial index predicate=%v unique=%t comment=%#v want unique=%t comment=%q", predicate, unique, comment, tc.unique, tc.comment)
 					}
 					// Equal names outside the predicate and one inside must coexist.
 					if err := tx.Exec("INSERT INTO ? (name,active) VALUES ('shared',false),('shared',false),('shared',true)", clause.Table{Name: table}).Error; err != nil {

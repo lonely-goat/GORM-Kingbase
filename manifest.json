@@ -6,11 +6,11 @@
   "repository_document_links_verified": true,
   "build_unit_tests_and_vet_passed": true,
   "race_tests_passed": true,
-  "copied_integration_verified_on_both_databases": false,
-  "official_gorm_database_regression_run": false,
+  "copied_integration_verified_on_both_databases": true,
+  "official_gorm_database_regression_run": true,
   "files": {
     ".gitignore": "6555b6c3f5bb884d865408706a2186c29f38cf45cfb74c5ecf5dabf8ea0938c5",
-    "README.md": "7f5ee9b2061db4596039fc06a90560ce05a8394501d3bb522e6379810b743c03",
+    "README.md": "25a214775b8d4ea0eeb86512401f2a485ee711bd936587efe26eea67f6377ecb",
     "THIRD_PARTY_NOTICES.md": "8146087bb77c4bb7d87ed434fea242aa760a4386d536c54949555456fbd0271d",
     "gorm-driver-kingbase/.gitignore": "b12985a8c7e865a6285db32431b8a9b213718818dce5a5053dde2a6bcbfa0a64",
     "gorm-driver-kingbase/LICENSE": "9a7ae3e4859786dde7532260a38855b0974675a89f77863b33340366c9520887",
@@ -27,15 +27,16 @@
     "gorm-driver-kingbase/docs/examples/model-mapping/main.go": "d0adea555edb83ac28aa8d4070e5752a313f27466a98141ba769b3a8556ab330",
     "gorm-driver-kingbase/docs/examples/sql-building/main.go": "fadabf9178736c9e3568646f651974adf4e0b1f5c36a95fba5b56ef8e9f4e276",
     "gorm-driver-kingbase/docs/examples/transaction-management/main.go": "9df7dc3e32726d4b44e1ea2a53621ba673ea99ede37f02a1737c8ee3a8385ab7",
-    "gorm-driver-kingbase/docs/testing.md": "80901833199a1b99a19dd77bb17332cdc822fb31cb9cbeb79e7a5e63518fa621",
-    "gorm-driver-kingbase/docs/文件清单.md": "a6bf8569f046d3efcd6ecd30512fd885ddf3351eb507372c8521db268fd80ff1",
+    "gorm-driver-kingbase/docs/testing.md": "40d6ff11b4f44f3157266f884ce0e1e61b1a90b5bad7f440747c33609be715fd",
+    "gorm-driver-kingbase/docs/实库验证-2026-11-02.md": "08734939b934ecc9fbdd74403307b1f2958827b9ceb6fa86338e95002b8f5290",
+    "gorm-driver-kingbase/docs/文件清单.md": "943a0b3c571d5fd2b9f86968a682785c4398ffa8c64ad1e3be7f8d2a7280fe54",
     "gorm-driver-kingbase/docs/维护导读.md": "bdbe5ab2d59539d10c949b87493aa08722c6a7bf2e1d26b29551a85f2deb51cc",
     "gorm-driver-kingbase/errors.go": "1ceec0c75400a262762bfb762f895c10a474b4c63c79042972f9f60ebbf9848e",
     "gorm-driver-kingbase/go.mod": "ac99858dc83948c94d92b432f412b7afa3f8d68bcbe504d7e7e65005c5541332",
     "gorm-driver-kingbase/go.sum": "127a517f24b513f4be365be5a980fa70b8c255848ad9e0c46ba926df73e04c0b",
     "gorm-driver-kingbase/integration/acceptance_test.go": "7526b2ac090cd297cb994b1df29c3109a6426719a002db456c7f963ff8901795",
     "gorm-driver-kingbase/integration/drop_index_test.go": "aae2b0208f2ca110f1b0e071855efb30e08ce51ea42c13a18f50ab9c928924fb",
-    "gorm-driver-kingbase/integration/index_boundaries_test.go": "73288e11b81a6425ce2aedd656bb0b603193fd3c5fabd6530f556db2be53186d",
+    "gorm-driver-kingbase/integration/index_boundaries_test.go": "7b026c35a0cb30e43f0fe0587abaada5cf071f39bbd12f0560a279f9c3a33e06",
     "gorm-driver-kingbase/integration/index_comment_test.go": "a394c60f6423cb5024324eab4a1459b0027b2ab7b796fd734642e76d9f7635d6",
     "gorm-driver-kingbase/integration/integration_test.go": "14695e4e82bc2f00332ec918657681365349fb63c57cb3bec477a40912840eb2",
     "gorm-driver-kingbase/integration/metadata_contract_test.go": "39ab5341f17d563d06ff7f59a6e31c7a9e4d7d5a7a34a2a3fc1b39d6ad3781d9",
@@ -106,13 +107,92 @@
     "third_party/gokb/uuid.go": "26446c0832758e312d6bea4f9d2ff9b267ffd1e155974b43a082bafd1b9bff4d"
   },
   "runtime_validation_reference": {
-    "commit": "d7258ce575d5985c9a3b24fb6caa67f9140d859a",
-    "carried_forward_for_documentation_only_change": true,
-    "unchanged_implementation_and_test_runner_verified": true
+    "base_commit": "7690a93fee682cfdef34e981844cfe1062a6954c",
+    "production_implementation_and_sdk_unchanged": true,
+    "modified_integration_test": "gorm-driver-kingbase/integration/index_boundaries_test.go",
+    "integration_test_source_sha256": "7b026c35a0cb30e43f0fe0587abaada5cf071f39bbd12f0560a279f9c3a33e06",
+    "current_checks": [
+      "build",
+      "no-database-unit",
+      "vet",
+      "live-integration-race",
+      "fixed-gorm-core",
+      "fixed-gorm-database-both-modes"
+    ],
+    "prior_no_database_race_commit": "d7258ce575d5985c9a3b24fb6caa67f9140d859a"
   },
   "documentation_checks": {
     "date": "2026-11-02",
     "local_markdown_links_verified": true,
     "bash_syntax_verified": true
+  },
+  "integration_race_tests_passed": true,
+  "official_gorm_database_regression_passed": true,
+  "real_database_validation": {
+    "date": "2026-11-02",
+    "gorm_version": "v1.31.1",
+    "kingbase_version": "V009R001C010",
+    "integration": {
+      "mysql": {
+        "pass": 35
+      },
+      "oracle": {
+        "pass": 33,
+        "skip": 2
+      }
+    },
+    "official": {
+      "mysql": {
+        "pass": 475,
+        "fail": 0,
+        "skip": 31
+      },
+      "oracle": {
+        "pass": 475,
+        "fail": 0,
+        "skip": 31
+      }
+    },
+    "official_breakdown": {
+      "core_pass": 98,
+      "database_pass": 377,
+      "database_skip": 31
+    },
+    "official_skipped_tests": [
+      "TestAssociationEmptyPrimaryKey",
+      "TestAutoMigrateDecimal",
+      "TestAutoMigrateInt8PGAndGaussDB",
+      "TestConnPoolWrapper",
+      "TestCreateFromMapWithoutPK",
+      "TestGaussDB",
+      "TestGaussDBAlterColumnDataType",
+      "TestGaussDBMany2ManyWithDefaultValueUUID",
+      "TestGaussDBOnConstraint",
+      "TestGaussDBReturningIDWhichHasStringType",
+      "TestGaussDBTableWithIdentifierLength",
+      "TestInvalidCachedPlanSimpleProtocol",
+      "TestInvalidCachedPlanSimpleProtocolGaussDB",
+      "TestMany2ManyWithDefaultValueUUID",
+      "TestManyToManyWithCustomizedForeignKeys",
+      "TestManyToManyWithCustomizedForeignKeys2",
+      "TestMigrateArrayTypeModel",
+      "TestMigrateExistingBoolColumnPGAndGaussDB",
+      "TestMigrateMySQLWithCustomizedTypes",
+      "TestMigrateSerialColumn",
+      "TestMigrateWithIndexComment",
+      "TestMigrateWithQuotedIndex",
+      "TestPostgres",
+      "TestPostgresOnConstraint",
+      "TestPostgresReturningIDWhichHasStringType",
+      "TestPostgresTableWithIdentifierLength",
+      "TestPrimarykeyID",
+      "TestPrimarykeyIDGaussDB",
+      "TestTableType",
+      "TestTiDBMigrateColumns",
+      "TestWithSingleConnection"
+    ],
+    "oracle_default_emptystr_isnull": "on",
+    "oracle_official_connection_emptystr_isnull": "off",
+    "instance_defaults_changed": false
   }
 }
