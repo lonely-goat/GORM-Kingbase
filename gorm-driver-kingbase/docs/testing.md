@@ -1,6 +1,6 @@
 # 测试说明
 
-最近一次固定配置实测见 [2026-11-02 双模式验证记录](实库验证-2026-11-02.md)，记录了首轮失败、测试修复、最终计数及 Oracle 连接参数差异。它是 GORM v1.31.1 下的结果快照，后续版本需要重新验证。
+当前 GORM v1.31.2 的验证结果见[新版双模式验证记录](实库验证-GORM-v1.31.2-2026-11-02.md)，旧版结果保留在[历史 v1.31.1 记录](实库验证-2026-11-02.md)，两者的测试计数不能混用。
 
 完整仓库的统一入口位于[根目录说明](../../README.md)。在仓库根目录运行 `bash scripts/test.sh` 执行构建、无数据库测试和 vet；`bash scripts/test.sh race` 执行无数据库竞态测试。两个入口会清除自身进程中的 DSN，避免意外连接实库。下面的直接 Go 命令均在 `gorm-driver-kingbase/` 中执行，并会使用调用进程原有环境变量。
 
@@ -30,6 +30,8 @@ KINGBASE_TEST_REQUIRE_DSN=yes go test ./integration -count=1 -p=1 -v
 
 `KINGBASE_TEST_REQUIRE_DSN=yes` 要求两条 DSN 均存在，防止缺少环境时把实库测试跳过。Oracle 空字符串、连接时区等配置应按本轮验收目标明确设置，不将一组配置下的结果推广到其他配置。
 
+新增的 `integration/gorm_upgrade_test.go` 覆盖 v1.31.2 的泛型模型推导、WithResult 错误与复用、命名数组/切片参数，以及相同默认值下的类型迁移。上游新增的批量 RETURNING 测试也已纳入 Kingbase 回归。
+
 七项需求示例位于 `docs/examples/`，各目录均有一个独立 main.go。先阅读对应程序的参数及 fixture 逻辑，再按其命令行运行；连接会话示例只读，其他示例可能创建对象或执行回滚验证。
 
 ## 与依赖版本一致的 GORM 回归
@@ -42,8 +44,8 @@ KINGBASE_TEST_ALLOW_DDL=yes ./scripts/run-official-gorm-tests.sh oracle -count=1
 运行器依次完成：
 
 1. 检查 DDL 授权开关和相应 DSN，通过 autodetect 核对实际模式。
-2. 从随仓库保留的 v1.31.1 源码归档提取临时副本，检查 SHA-256 及 go.mod 版本。
-3. 应用方言接入与断言修补 patch，保留生产核心基线。
+2. 从随仓库保留的 v1.31.2 源码归档提取临时副本，检查 SHA-256 及 go.mod 版本。
+3. 精确应用针对 v1.31.2 重新生成的方言接入与断言补丁（禁用模糊匹配），保留生产核心基线。
 4. 在临时副本执行核心及数据库测试，按 Go JSON 事件统计 PASS、FAIL、SKIP。零测试匹配会失败。
 
 历史测试中使用的进程 `TZ=UTC`、DSN `TimeZone=UTC`，以及 Oracle 的 `ora_input_emptystr_isnull=off` 会影响相应用例语义。复现这些结果时应采用对应配置，并在报告中记录。`KINGBASE_TEST_SUMMARY` 可指定 JSON 统计输出文件。

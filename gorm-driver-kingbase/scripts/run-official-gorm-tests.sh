@@ -53,12 +53,12 @@ cleanup() {
 trap cleanup EXIT
 
 python3 "$script_dir/prepare-official-gorm.py" "$temporary_root"
-patch -s -d "$temporary_root" -p1 < "$script_dir/official-gorm-tests.patch"
-patch -s -d "$temporary_root" -p1 < "$script_dir/official-gorm-assertions.patch"
+patch -s --fuzz=0 -d "$temporary_root" -p1 < "$script_dir/official-gorm-tests.patch"
+patch -s --fuzz=0 -d "$temporary_root" -p1 < "$script_dir/official-gorm-assertions.patch"
 if [[ ${KINGBASE_DIAGNOSTIC_SQL:-} == "yes" ]]; then
     # Report every ToSQL mismatch in one diagnostic run. This is intentionally
     # opt-in and is not used for pass/fail regression counts.
-    patch -s -d "$temporary_root" -p1 < "$script_dir/official-gorm-sql-diagnostic.patch"
+    patch -s --fuzz=0 -d "$temporary_root" -p1 < "$script_dir/official-gorm-sql-diagnostic.patch"
 fi
 
 (

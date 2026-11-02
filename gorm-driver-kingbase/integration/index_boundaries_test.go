@@ -351,9 +351,9 @@ func TestExplicitZeroTimePrecision(t *testing.T) {
 	})
 }
 
-// GORM v1.31.1's typed Select(...).Row/Rows does not infer a table from T.
-// Verify the explicit-table API supported by that release without changing
-// GORM's runtime core or treating an unsupported query's error as a pass.
+// Explicit Table remains valid in GORM v1.31.2, including scoped tables.
+// TestGORM1312GenericsModelInference separately covers inference from T.
+// Keep this case to preserve coverage of the explicit-table API.
 func TestGenericsRowsWithExplicitTable(t *testing.T) {
 	runAcceptanceModes(t, nil, func(t *testing.T, db *gorm.DB, _ acceptanceMode) {
 		withIndexSchemas(t, db, func(tx *gorm.DB, a, _ string) {

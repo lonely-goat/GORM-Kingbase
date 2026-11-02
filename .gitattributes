@@ -1,0 +1,3 @@
+# Unified diff context uses a leading space before tabs and empty lines.
+# Preserve that patch syntax; exact application is checked against the archive.
+*.patch -whitespace

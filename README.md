@@ -1,14 +1,21 @@
-# GORM V2 金仓双模式适配器
+# GORM V2 金仓双模式适配器（GORM v1.31.2）
 
 本项目通过 `kingbase.com/gokb` 连接 KingbaseES，支持 MySQL、Oracle 两种兼容模式。交付目录包含适配器、配套 gokb 源码、测试、示例和固定版本的 GORM 回归测试基线。
 
-后续维护先读[维护导读](gorm-driver-kingbase/docs/维护导读.md)：记录两个分支和运行依赖的关系、源码阅读顺序、测试入口、提交和再次交付步骤。逐文件职责见[文件清单](gorm-driver-kingbase/docs/文件清单.md)。
+后续维护先读[维护导读](gorm-driver-kingbase/docs/维护导读.md)：记录各分支和运行依赖的关系、源码阅读顺序、测试入口、提交和再次交付步骤。逐文件职责见[文件清单](gorm-driver-kingbase/docs/文件清单.md)。
 
-本版本已完成 KingbaseES V009R001C010 双模式实测，配置、通过/跳过计数及本轮测试修复见 [2026-11-02 实库验证记录](gorm-driver-kingbase/docs/实库验证-2026-11-02.md)。结果对应 GORM v1.31.1，不代表已升级或验证最新框架版本。
+当前交付分支为 `kingbase-driver-gorm-v1.31.2`，运行依赖和官方回归基线均为 **GORM v1.31.2**。升级范围、实测结果和配置见[新版验证记录](gorm-driver-kingbase/docs/实库验证-GORM-v1.31.2-2026-11-02.md)。原 `kingbase-driver` 分支保留 GORM v1.31.1 版本；`master` 保留早期 GORM 核心快照。
 
 ## 下载后运行
 
-解压完整源码包，或克隆后进入仓库根目录。保留以下相对目录关系：
+[下载本分支 ZIP](https://github.com/lonely-goat/GORM-Kingbase/archive/refs/heads/kingbase-driver-gorm-v1.31.2.zip) 并解压，或按下面的命令明确克隆新版分支：
+
+```sh
+git clone --branch kingbase-driver-gorm-v1.31.2 --single-branch https://github.com/lonely-goat/GORM-Kingbase.git GORM-Kingbase
+cd GORM-Kingbase
+```
+
+在完整仓库根目录执行后续命令，并保留以下相对目录关系：
 
 ```text
 GORM-Kingbase/
@@ -63,11 +70,11 @@ bash scripts/test.sh official-mysql
 bash scripts/test.sh official-oracle
 ```
 
-回归脚本使用随包保留的 GORM v1.31.1 源码归档，在临时目录应用方言接入及断言补丁后测试；不依赖开发机上的 GORM 研究仓库。实际执行的 PASS、FAIL、SKIP 以本次输出为准。
+回归脚本使用随包保留的 GORM v1.31.2 源码归档，在临时目录应用方言接入及断言补丁后测试；不依赖开发机上的 GORM 研究仓库。实际执行的 PASS、FAIL、SKIP 以本次输出为准。
 
 ## 业务接入和交付范围
 
-使用示例和能力边界见[适配器 README](gorm-driver-kingbase/README.md)，源码对照见[七项功能说明](gorm-driver-kingbase/docs/GORM-v2-KingbaseES代码修改说明-按七项功能.md)。本项目依赖 `gorm.io/gorm v1.31.1`，不要求修改 GORM 核心。
+使用示例和能力边界见[适配器 README](gorm-driver-kingbase/README.md)，源码对照见[七项功能说明](gorm-driver-kingbase/docs/GORM-v2-KingbaseES代码修改说明-按七项功能.md)。本项目依赖 `gorm.io/gorm v1.31.2`，不要求修改 GORM 核心。
 
 当前交付方式是下载整个源码树运行测试。适配器保留 `kingbase.com/gorm-driver-kingbase` 模块名；将其作为另一个业务模块的依赖时，需要在业务模块中配置适配器和 gokb 的本地替换，详见[开发说明](gorm-driver-kingbase/docs/development.md)。这份源码包尚未配置为可直接公开 `go get` 的模块发布物。
 

@@ -5,10 +5,10 @@ import (
 	"gorm.io/gorm/callbacks"
 )
 
-// GORM v1.31.1 Scan accepts *[]map, but attempts to scan each RETURNING
+// GORM v1.31.2 Scan accepts *[]map, but attempts to scan each RETURNING
 // scalar directly into a map when Dest is []map. Adapt only the create step,
 // then restore Dest before associations/hooks. Maps retain their original
-// identity; CreateInBatches also reaches this path with value subslices.
+// identity; ordinary Create and CreateInBatches both reach this path.
 func createWithMapReturning(config *callbacks.Config) func(*gorm.DB) {
 	create := callbacks.Create(config)
 	return func(db *gorm.DB) {
@@ -42,7 +42,7 @@ func createWithMapReturning(config *callbacks.Config) func(*gorm.DB) {
 	}
 }
 
-// mergeMapReturning repairs GORM v1.31.1's *[]map scan shape for ordinary
+// mergeMapReturning repairs GORM v1.31.2's *[]map scan shape for ordinary
 // INSERT ... RETURNING: Scan appends result-only maps after the input maps.
 // Row order is usable only when every inserted input returned one result, so
 // conflict clauses are deliberately excluded.

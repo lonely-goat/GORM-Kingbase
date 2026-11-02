@@ -55,7 +55,7 @@ python3 gorm-driver-kingbase/scripts/build-review-bundle.py deliverables/GORM-Ki
 
 ## GitHub 交付边界
 
-后续上传时，以生成的干净交付目录作为交付分支的仓库根目录；两个源码子目录均保留。原 GORM 分支可以留作研究对照。默认分支应指向交付代码，甲方打开仓库即可看到根目录运行说明。
+当前维护与交付分支为 `kingbase-driver-gorm-v1.31.2`；旧版 `kingbase-driver` 和原 GORM `master` 保留。给甲方提供新版分支或固定提交链接，并在下载时明确分支。工作区日常维护唯一的 `projects/GORM-Kingbase/`，打包输出只是交付快照，不创建另一套日常开发目录。
 
 仓库所有者已于 2026-11-02 确认配套 gokb 可以公开分发，发布时保留原版权声明及来源记录。工作区 `archive`、`test-results`、旧 GORM 研究副本及历史交付材料不属于这份源码树。
 

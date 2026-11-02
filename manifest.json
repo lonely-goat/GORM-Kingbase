@@ -1,25 +1,139 @@
 {
+  "gorm_version": "v1.31.2",
+  "branch": "kingbase-driver-gorm-v1.31.2",
   "gokb_module": "kingbase.com/gokb",
   "gokb_source_matches_provenance": true,
   "gokb_public_distribution_permission": "confirmed_by_repository_owner",
-  "gorm_version": "v1.31.1",
   "repository_document_links_verified": true,
   "build_unit_tests_and_vet_passed": true,
   "race_tests_passed": true,
-  "copied_integration_verified_on_both_databases": true,
+  "integration_verified_on_both_databases": true,
+  "integration_race_tests_passed": true,
   "official_gorm_database_regression_run": true,
+  "official_gorm_database_regression_passed": true,
+  "runtime_validation_reference": {
+    "base_commit": "1e05d2482581c8ab1d4d1000b84fc6c96363ef76",
+    "date": "2026-11-02",
+    "production_logic_unchanged": true,
+    "production_comments_updated": true,
+    "sdk_source_unchanged": true,
+    "new_upgrade_test": "gorm-driver-kingbase/integration/gorm_upgrade_test.go",
+    "current_checks": [
+      "build",
+      "no-database-unit",
+      "vet",
+      "no-database-race",
+      "live-integration-race",
+      "fixed-gorm-v1.31.2-core",
+      "fixed-gorm-v1.31.2-database-both-modes"
+    ],
+    "upstream_patches_exact_application": true
+  },
+  "documentation_checks": {
+    "date": "2026-11-02",
+    "local_markdown_links_verified": true,
+    "bash_syntax_verified": true,
+    "python_syntax_verified": true
+  },
+  "real_database_validation": {
+    "date": "2026-11-02",
+    "gorm_version": "v1.31.2",
+    "kingbase_version": "V009R001C010",
+    "base_commit": "1e05d2482581c8ab1d4d1000b84fc6c96363ef76",
+    "branch": "kingbase-driver-gorm-v1.31.2",
+    "integration": {
+      "mysql": {
+        "pass": 39
+      },
+      "oracle": {
+        "pass": 37,
+        "skip": 2
+      }
+    },
+    "official": {
+      "mysql": {
+        "pass": 480,
+        "fail": 0,
+        "skip": 32
+      },
+      "oracle": {
+        "pass": 480,
+        "fail": 0,
+        "skip": 32
+      }
+    },
+    "official_breakdown": {
+      "core_pass": 100,
+      "database_pass": 380,
+      "database_skip": 32
+    },
+    "official_skipped_tests": [
+      "TestAssociationEmptyPrimaryKey",
+      "TestAutoMigrateDecimal",
+      "TestAutoMigrateInt8PGAndGaussDB",
+      "TestConnPoolWrapper",
+      "TestCreateFromMapWithoutPK",
+      "TestGaussDB",
+      "TestGaussDBAlterColumnDataType",
+      "TestGaussDBMany2ManyWithDefaultValueUUID",
+      "TestGaussDBOnConstraint",
+      "TestGaussDBReturningIDWhichHasStringType",
+      "TestGaussDBTableWithIdentifierLength",
+      "TestInvalidCachedPlanSimpleProtocol",
+      "TestInvalidCachedPlanSimpleProtocolGaussDB",
+      "TestMany2ManyWithDefaultValueUUID",
+      "TestManyToManyWithCustomizedForeignKeys",
+      "TestManyToManyWithCustomizedForeignKeys2",
+      "TestMigrateArrayTypeModel",
+      "TestMigrateDontOverrideAlterColumnByDefaultValue",
+      "TestMigrateExistingBoolColumnPGAndGaussDB",
+      "TestMigrateMySQLWithCustomizedTypes",
+      "TestMigrateSerialColumn",
+      "TestMigrateWithIndexComment",
+      "TestMigrateWithQuotedIndex",
+      "TestPostgres",
+      "TestPostgresOnConstraint",
+      "TestPostgresReturningIDWhichHasStringType",
+      "TestPostgresTableWithIdentifierLength",
+      "TestPrimarykeyID",
+      "TestPrimarykeyIDGaussDB",
+      "TestTableType",
+      "TestTiDBMigrateColumns",
+      "TestWithSingleConnection"
+    ],
+    "official_new_batch_returning_test": {
+      "mysql": "pass",
+      "oracle": "pass"
+    },
+    "oracle_default_emptystr_isnull": "on",
+    "oracle_official_connection_emptystr_isnull": "off",
+    "instance_defaults_changed": false,
+    "dedicated_databases": {
+      "mysql": {
+        "integration": "gorm_integration_v1312_20261102202535",
+        "official": "gorm_official_v1312_20261102202535"
+      },
+      "oracle": {
+        "integration": "gorm_integration_v1312_20261102202535",
+        "official": "gorm_official_v1312_20261102202535"
+      }
+    },
+    "upstream_patches_apply_without_fuzz_or_offset": true,
+    "new_upgrade_regressions": 4
+  },
   "files": {
+    ".gitattributes": "1c682a5c541e59d2ab2129e5cd63e4037cca4b5dc7600acf99cfd6174b9499d3",
     ".gitignore": "6555b6c3f5bb884d865408706a2186c29f38cf45cfb74c5ecf5dabf8ea0938c5",
-    "README.md": "25a214775b8d4ea0eeb86512401f2a485ee711bd936587efe26eea67f6377ecb",
+    "README.md": "b8345ad6e56d127607974c5677454fe7d3e11a7410d5cc994bbd6e1d24a1f9cf",
     "THIRD_PARTY_NOTICES.md": "8146087bb77c4bb7d87ed434fea242aa760a4386d536c54949555456fbd0271d",
     "gorm-driver-kingbase/.gitignore": "b12985a8c7e865a6285db32431b8a9b213718818dce5a5053dde2a6bcbfa0a64",
     "gorm-driver-kingbase/LICENSE": "9a7ae3e4859786dde7532260a38855b0974675a89f77863b33340366c9520887",
-    "gorm-driver-kingbase/README.md": "c0da0584aa2c9b5dca16432664c76c7aa5959c27ae176ba0614f2ca50653a5bf",
+    "gorm-driver-kingbase/README.md": "24c0f8b0fdd5dcf36eb71aed40947fb84b9af2cac0dc9f15b34d402838c2ab5f",
     "gorm-driver-kingbase/clause.go": "43eee09c3cb9cb6072b6d66c64be1ac399cdc5f670af5b7e97c4aa1581fb6410",
     "gorm-driver-kingbase/cmd/autodetect/main.go": "264b55b88266001d6f80ddbf88dd3f2786f38ab4421b53f76955cf6a2307516b",
     "gorm-driver-kingbase/compatibility_test.go": "e9f94226c55564c7a254a4426decd7cbc5236c96a02e1a3bf1cd19cdf71d4edb",
-    "gorm-driver-kingbase/docs/GORM-v2-KingbaseES代码修改说明-按七项功能.md": "622155b834185498348baa4bcb92f88c9cc17ffc1e270b8213859cd524fe34ba",
-    "gorm-driver-kingbase/docs/development.md": "2b1b0ca57e6bd0cd86ac992132a0cbf3615ef3a13288b56194db336ddba6b847",
+    "gorm-driver-kingbase/docs/GORM-v2-KingbaseES代码修改说明-按七项功能.md": "d804f93beaa56046162baffe7566faa84fbdd7f1ddfb8f56af4f1c075fde7211",
+    "gorm-driver-kingbase/docs/development.md": "be184209c6305ea66040be2365871a9e1383f32c3379c0899dbd27f79f2093d9",
     "gorm-driver-kingbase/docs/examples/association-management/main.go": "78f2e3bcf723be97456361c240c087874508f0a0f8df7ae703ec87019f37c0d0",
     "gorm-driver-kingbase/docs/examples/connection-session/main.go": "fcfe2f4affc8099177629576fa8d747e417894e91e82847566011cb07d578ab3",
     "gorm-driver-kingbase/docs/examples/data-results/main.go": "3ac9d2fc8b6f5fe99956a5a44f41d3e97ea324626a46c7a4efd1c567b5289a10",
@@ -27,16 +141,18 @@
     "gorm-driver-kingbase/docs/examples/model-mapping/main.go": "d0adea555edb83ac28aa8d4070e5752a313f27466a98141ba769b3a8556ab330",
     "gorm-driver-kingbase/docs/examples/sql-building/main.go": "fadabf9178736c9e3568646f651974adf4e0b1f5c36a95fba5b56ef8e9f4e276",
     "gorm-driver-kingbase/docs/examples/transaction-management/main.go": "9df7dc3e32726d4b44e1ea2a53621ba673ea99ede37f02a1737c8ee3a8385ab7",
-    "gorm-driver-kingbase/docs/testing.md": "40d6ff11b4f44f3157266f884ce0e1e61b1a90b5bad7f440747c33609be715fd",
+    "gorm-driver-kingbase/docs/testing.md": "5848ba36dc2129bc39044d44340d18e28dd92445f648cebe81a84bfb2b3dd3d1",
     "gorm-driver-kingbase/docs/实库验证-2026-11-02.md": "08734939b934ecc9fbdd74403307b1f2958827b9ceb6fa86338e95002b8f5290",
-    "gorm-driver-kingbase/docs/文件清单.md": "943a0b3c571d5fd2b9f86968a682785c4398ffa8c64ad1e3be7f8d2a7280fe54",
-    "gorm-driver-kingbase/docs/维护导读.md": "bdbe5ab2d59539d10c949b87493aa08722c6a7bf2e1d26b29551a85f2deb51cc",
+    "gorm-driver-kingbase/docs/实库验证-GORM-v1.31.2-2026-11-02.md": "af42a93115932f70cbd7a7e58b64ab25b3763de61f967d496b6751846347aa81",
+    "gorm-driver-kingbase/docs/文件清单.md": "58bb7394f509e8f5f59c285572f5a06ad2f52c43d570a6280b3b5b748cb8652a",
+    "gorm-driver-kingbase/docs/维护导读.md": "41990fbda21fb248a05a799629995d553fef9a6bd0a0546e6e28c070c61db5fb",
     "gorm-driver-kingbase/errors.go": "1ceec0c75400a262762bfb762f895c10a474b4c63c79042972f9f60ebbf9848e",
-    "gorm-driver-kingbase/go.mod": "ac99858dc83948c94d92b432f412b7afa3f8d68bcbe504d7e7e65005c5541332",
-    "gorm-driver-kingbase/go.sum": "127a517f24b513f4be365be5a980fa70b8c255848ad9e0c46ba926df73e04c0b",
+    "gorm-driver-kingbase/go.mod": "45b114431480a8bf7bba2dc4330c3781c7e9a73621f97ff8d4042a29865f66d2",
+    "gorm-driver-kingbase/go.sum": "8326ea00816d903226679418ffc24e1f87ccfa1ed5f6689962e32e35f1b3d411",
     "gorm-driver-kingbase/integration/acceptance_test.go": "7526b2ac090cd297cb994b1df29c3109a6426719a002db456c7f963ff8901795",
     "gorm-driver-kingbase/integration/drop_index_test.go": "aae2b0208f2ca110f1b0e071855efb30e08ce51ea42c13a18f50ab9c928924fb",
-    "gorm-driver-kingbase/integration/index_boundaries_test.go": "7b026c35a0cb30e43f0fe0587abaada5cf071f39bbd12f0560a279f9c3a33e06",
+    "gorm-driver-kingbase/integration/gorm_upgrade_test.go": "f70de46cd4cd812a2d81316a654742edf99fc816eccc8223de641cd7977fb403",
+    "gorm-driver-kingbase/integration/index_boundaries_test.go": "3eb371c1643ce69caa76d825d2a2302039081b7442b42f250355e67ed73867cd",
     "gorm-driver-kingbase/integration/index_comment_test.go": "a394c60f6423cb5024324eab4a1459b0027b2ab7b796fd734642e76d9f7635d6",
     "gorm-driver-kingbase/integration/integration_test.go": "14695e4e82bc2f00332ec918657681365349fb63c57cb3bec477a40912840eb2",
     "gorm-driver-kingbase/integration/metadata_contract_test.go": "39ab5341f17d563d06ff7f59a6e31c7a9e4d7d5a7a34a2a3fc1b39d6ad3781d9",
@@ -47,12 +163,12 @@
     "gorm-driver-kingbase/integration/nonunique_association_test.go": "68a61c8454143fa4e90bb11f7ee01454c7c298d5f3f9020fe46a71c5fd4f4af1",
     "gorm-driver-kingbase/integration/quoted_index_name_test.go": "4c246f301805d99e1d78e1a06e42c0a1a5db899012bb14187768073f100d13cc",
     "gorm-driver-kingbase/integration/skipped_coverage_test.go": "7ff5b4de7a4b6218c2140b6a2f3069a256ed672896c5729ee5117ce074107df1",
-    "gorm-driver-kingbase/integration/submission_regression_test.go": "3ea5af76cbb3a6eee5f894d07a48aeffe2927ac4fd81c64f6ef92f9bc57ff30d",
+    "gorm-driver-kingbase/integration/submission_regression_test.go": "deee3d735242d8462e8e8c1718b8564dad5257e4baa7b252de44a43a9d4b7903",
     "gorm-driver-kingbase/kingbase.go": "0df6531be49bef72cc4b20268f5b6a4f259a742ac5429e5cf25789f163801cdc",
     "gorm-driver-kingbase/kingbase_test.go": "5d25657d5d8b7d48f7fc03e7207d35f5d24d0be337f74a455ff03465ba7cd856",
-    "gorm-driver-kingbase/map_returning.go": "5820bcfca329e509ad39e34b0f5dc929c5209f2ff869976001581e7a2bcb27f1",
+    "gorm-driver-kingbase/map_returning.go": "edf3e5458229dbd4a81a3667689b134bc6dd4be2d2d4369d5c5727f0362f82f5",
     "gorm-driver-kingbase/migrator.go": "40230c69ca51ce03f2256637caab0223794e0c273dc57b67ccc537fa87dc01a4",
-    "gorm-driver-kingbase/migrator_columns.go": "7e1ef0fce84aaf0a40d1f35e8cd2a6fe2ef4b571582e5f797fa7d68b1edbca91",
+    "gorm-driver-kingbase/migrator_columns.go": "45cd281fef7fc3303e3a5a4b03f90d6a9033faa58880a0e34760a5b45598d095",
     "gorm-driver-kingbase/migrator_mysql.go": "28eee1173b8232593799c7fe7e7cb65a24fb85323d4c94703cd78d41890ec850",
     "gorm-driver-kingbase/migrator_oracle.go": "0b2c1d4ff4fa1a16555747229d68cd730704aa7540860e1fdcda01a38d0ff97c",
     "gorm-driver-kingbase/mode.go": "2c4c1b6650512f64851b14500997f0b0dd6e4c91d16cdc26ae4146db8998f26d",
@@ -60,17 +176,17 @@
     "gorm-driver-kingbase/oracle_names.go": "ba08fde3d7ef06478e8df6ad239a6aad9c61f4d5f63b40abc62c9794e854c4f1",
     "gorm-driver-kingbase/oracle_types.go": "887e08666af077d862a6469e1fd25e7cf9e7dc60b7bee15c533d57e122962278",
     "gorm-driver-kingbase/quote_bind.go": "2a8b0dd33d84f311bedb5948a7f482132485bf4b18be3041252dd3c30aa64e63",
-    "gorm-driver-kingbase/scripts/build-review-bundle.py": "f050fd2ba84ce17095e45ce37d57693e6b8794b1c00109bea3c6a2e1a05037ff",
-    "gorm-driver-kingbase/scripts/gorm-baseline.json": "89ad068d868ef5823b4774a1eed8ab880324967326bbb8c3c0c503466e4631c9",
-    "gorm-driver-kingbase/scripts/official-gorm-assertions.patch": "211441bce095f48c0a90c5240f065b79cf1e51a7a613471c886bedaac958faca",
-    "gorm-driver-kingbase/scripts/official-gorm-sql-diagnostic.patch": "cefeb2cc80a0bc1fb77d07848b5ef283cbe8a27a55b29371325c59f5c45e819e",
-    "gorm-driver-kingbase/scripts/official-gorm-tests.patch": "bf8907664767ca6855f798cf02bb135e8fc5db8e7e132ebd151ef9b5859a1912",
+    "gorm-driver-kingbase/scripts/build-review-bundle.py": "6b2c78b7a82600dce8252bbdecaaca8fcda598b8467d9a1efae220e40c79fac0",
+    "gorm-driver-kingbase/scripts/gorm-baseline.json": "8ffeff5343769190a95e1c361d579d5ac849efa8904ab3f3e2cbf02989ac5953",
+    "gorm-driver-kingbase/scripts/official-gorm-assertions.patch": "7d9510b1d5a5579cda9a39d0604f65ece9d7695078512b55643364e5d9451876",
+    "gorm-driver-kingbase/scripts/official-gorm-sql-diagnostic.patch": "0d8fcf2e66bfaf15822e912891a0da60a044ae2e31c93042aa1e9ecad89715ee",
+    "gorm-driver-kingbase/scripts/official-gorm-tests.patch": "c8121b899baed65ff1eab804fa18e284d42cab22c67898376a3c3f2f3d03baaa",
     "gorm-driver-kingbase/scripts/prepare-official-gorm.py": "3c4953312ad4c28c750b2111598293c07f6310a1be8d32d936ff9435f5d48c9d",
-    "gorm-driver-kingbase/scripts/run-official-gorm-tests.sh": "0aeb142283aea015b9d504acf6f232f9136ff2af71f34980b48314fd21a332be",
+    "gorm-driver-kingbase/scripts/run-official-gorm-tests.sh": "c2a2e182910cad34b93d08846b906d2af049e6e5eb1587fb359af1124c4f8e2a",
     "gorm-driver-kingbase/scripts/summarize-test-json.py": "5fe2e4bd825936242ec9741376da39ad322f04dbc10ca9f0275db9b29cefba69",
     "gorm-driver-kingbase/scripts/verify-assertion-regressions.py": "082b9660f4025f9d5fe007a5f9ba584744c6019583165c59709f14e632a77be1",
     "gorm-driver-kingbase/scripts/verify-expectations.py": "bcbc00f5048d95fc74e62048f9a3f432da9bfa175324cc9fb0ef37a5183a4381",
-    "gorm-driver-kingbase/testdata/upstream/gorm-v1.31.1.tar.gz": "03f353cf1c953a60102c8ec84cf550daf278b932acf3aed2b1e335909ceff65c",
+    "gorm-driver-kingbase/testdata/upstream/gorm-v1.31.2.tar.gz": "a7d1609fb4508dedf764f81bc366541aada8991f0b37b3c78e9bca0bca6aac7a",
     "scripts/test.sh": "e4e2f14545865b0996406ba01bd1bd84c46337b11f52b9f0d2d76b4f8baa21b9",
     "third_party/README.md": "3b90507f16927b31729af38da5674712ca9b66093d3b6033cab8eeecbbd2ff40",
     "third_party/gokb-source.json": "e09dff2ec7fb9be5f880c53c972e5b1a598ed43560a268829da167a7291106a2",
@@ -105,94 +221,5 @@
     "third_party/gokb/user_posix.go": "dd2946617398e5f774cca6beb6d957e8ab7f94591c352f3cee8f2255df81f646",
     "third_party/gokb/user_windows.go": "49b9782a0e7782148bd9c508008aa80da975ef44e82e5dc5f9bc06c6a169e070",
     "third_party/gokb/uuid.go": "26446c0832758e312d6bea4f9d2ff9b267ffd1e155974b43a082bafd1b9bff4d"
-  },
-  "runtime_validation_reference": {
-    "base_commit": "7690a93fee682cfdef34e981844cfe1062a6954c",
-    "production_implementation_and_sdk_unchanged": true,
-    "modified_integration_test": "gorm-driver-kingbase/integration/index_boundaries_test.go",
-    "integration_test_source_sha256": "7b026c35a0cb30e43f0fe0587abaada5cf071f39bbd12f0560a279f9c3a33e06",
-    "current_checks": [
-      "build",
-      "no-database-unit",
-      "vet",
-      "live-integration-race",
-      "fixed-gorm-core",
-      "fixed-gorm-database-both-modes"
-    ],
-    "prior_no_database_race_commit": "d7258ce575d5985c9a3b24fb6caa67f9140d859a"
-  },
-  "documentation_checks": {
-    "date": "2026-11-02",
-    "local_markdown_links_verified": true,
-    "bash_syntax_verified": true
-  },
-  "integration_race_tests_passed": true,
-  "official_gorm_database_regression_passed": true,
-  "real_database_validation": {
-    "date": "2026-11-02",
-    "gorm_version": "v1.31.1",
-    "kingbase_version": "V009R001C010",
-    "integration": {
-      "mysql": {
-        "pass": 35
-      },
-      "oracle": {
-        "pass": 33,
-        "skip": 2
-      }
-    },
-    "official": {
-      "mysql": {
-        "pass": 475,
-        "fail": 0,
-        "skip": 31
-      },
-      "oracle": {
-        "pass": 475,
-        "fail": 0,
-        "skip": 31
-      }
-    },
-    "official_breakdown": {
-      "core_pass": 98,
-      "database_pass": 377,
-      "database_skip": 31
-    },
-    "official_skipped_tests": [
-      "TestAssociationEmptyPrimaryKey",
-      "TestAutoMigrateDecimal",
-      "TestAutoMigrateInt8PGAndGaussDB",
-      "TestConnPoolWrapper",
-      "TestCreateFromMapWithoutPK",
-      "TestGaussDB",
-      "TestGaussDBAlterColumnDataType",
-      "TestGaussDBMany2ManyWithDefaultValueUUID",
-      "TestGaussDBOnConstraint",
-      "TestGaussDBReturningIDWhichHasStringType",
-      "TestGaussDBTableWithIdentifierLength",
-      "TestInvalidCachedPlanSimpleProtocol",
-      "TestInvalidCachedPlanSimpleProtocolGaussDB",
-      "TestMany2ManyWithDefaultValueUUID",
-      "TestManyToManyWithCustomizedForeignKeys",
-      "TestManyToManyWithCustomizedForeignKeys2",
-      "TestMigrateArrayTypeModel",
-      "TestMigrateExistingBoolColumnPGAndGaussDB",
-      "TestMigrateMySQLWithCustomizedTypes",
-      "TestMigrateSerialColumn",
-      "TestMigrateWithIndexComment",
-      "TestMigrateWithQuotedIndex",
-      "TestPostgres",
-      "TestPostgresOnConstraint",
-      "TestPostgresReturningIDWhichHasStringType",
-      "TestPostgresTableWithIdentifierLength",
-      "TestPrimarykeyID",
-      "TestPrimarykeyIDGaussDB",
-      "TestTableType",
-      "TestTiDBMigrateColumns",
-      "TestWithSingleConnection"
-    ],
-    "oracle_default_emptystr_isnull": "on",
-    "oracle_official_connection_emptystr_isnull": "off",
-    "instance_defaults_changed": false
   }
 }

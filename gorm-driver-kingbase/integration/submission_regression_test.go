@@ -80,7 +80,7 @@ func TestUppercaseModelReadAndReturning(t *testing.T) {
 		// transaction/connection (the SDK requires those to be consumed serially).
 		var sessions []*gorm.DB
 		var records []uppercaseSubmission
-		// GORM v1.31.1 ParseIndexes mutates cached UniqueIndex metadata.
+		// GORM v1.31.2 ParseIndexes mutates cached UniqueIndex metadata.
 		// Complete migration setup serially; only the application reads below
 		// run concurrently, on separate pinned database connections.
 		for i := 0; i < 4; i++ {

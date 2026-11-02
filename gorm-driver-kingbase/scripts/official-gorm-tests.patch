@@ -1,31 +1,21 @@
-diff --git a/tests/tests_test.go b/tests/tests_test.go
---- a/tests/tests_test.go
-+++ b/tests/tests_test.go
-@@ -13,6 +13,7 @@ import (
- 	"gorm.io/driver/sqlite"
- 	"gorm.io/driver/sqlserver"
- 	"gorm.io/gorm"
-+	kingbase "kingbase.com/gorm-driver-kingbase"
- 	"gorm.io/gorm/logger"
- 	. "gorm.io/gorm/utils/tests"
- )
-@@ -51,6 +52,12 @@ func OpenTestConnection(cfg *gorm.Config) (db *gorm.DB, err error) {
- 	dbDSN := os.Getenv("GORM_DSN")
- 	switch os.Getenv("GORM_DIALECT") {
-+	case "kingbase":
-+		log.Println("testing KingbaseES through the external GORM Dialector...")
-+		db, err = gorm.Open(kingbase.Open(dbDSN), cfg)
-+		if err == nil && os.Getenv("KINGBASE_DEBUG_SQL") == "yes" {
-+			db = db.Debug()
-+		}
- 	case "mysql":
- 		log.Println("testing mysql...")
- 		if dbDSN == "" {
- 			dbDSN = mysqlDSN
+diff --git a/tests/create_test.go b/tests/create_test.go
+--- a/tests/create_test.go
++++ b/tests/create_test.go
+@@ -810,8 +810,8 @@
+ }
+ 
+ func TestCreateInBatchesWithReturning(t *testing.T) {
+-	if DB.Dialector.Name() != "sqlite" && DB.Dialector.Name() != "postgres" {
+-		t.Skip("RETURNING is only supported on SQLite >= 3.35.0 and PostgreSQL")
++	if DB.Dialector.Name() != "sqlite" && DB.Dialector.Name() != "postgres" && DB.Dialector.Name() != "kingbase" {
++		t.Skip("RETURNING test applies to SQLite >= 3.35.0, PostgreSQL and KingbaseES")
+ 	}
+ 
+ 	// Use a session with CreateBatchSize > 0 to force CreateInBatches internally
 diff --git a/tests/multi_primary_keys_test.go b/tests/multi_primary_keys_test.go
 --- a/tests/multi_primary_keys_test.go
 +++ b/tests/multi_primary_keys_test.go
-@@ -41,7 +41,7 @@ func TestManyToManyWithMultiPrimaryKeys(t *testing.T) {
+@@ -41,7 +41,7 @@
  		t.Skip("skip sqlite, sqlserver due to it doesn't support multiple primary keys with auto increment")
  	}
  
@@ -34,7 +24,7 @@ diff --git a/tests/multi_primary_keys_test.go b/tests/multi_primary_keys_test.go
  		stmt := gorm.Statement{DB: DB}
  		stmt.Parse(&Blog{})
  		stmt.Schema.LookUpField("ID").Unique = true
-@@ -143,8 +143,8 @@ func TestManyToManyWithCustomizedForeignKeys(t *testing.T) {
+@@ -143,8 +143,8 @@
  		t.Skip("skip mysql 8.4+ due to stricter foreign key requirements for non-unique referenced keys")
  	}
  
@@ -45,7 +35,7 @@ diff --git a/tests/multi_primary_keys_test.go b/tests/multi_primary_keys_test.go
  	}
  	if name := DB.Dialector.Name(); name == "gaussdb" {
  		t.Skip("skip gaussdb due to it only allow unique constraint matching given keys")
-@@ -271,8 +271,8 @@ func TestManyToManyWithCustomizedForeignKeys2(t *testing.T) {
+@@ -271,8 +271,8 @@
  		t.Skip("skip sqlite, sqlserver due to it doesn't support multiple primary keys with auto increment")
  	}
  
@@ -59,17 +49,21 @@ diff --git a/tests/multi_primary_keys_test.go b/tests/multi_primary_keys_test.go
 diff --git a/tests/sql_builder_test.go b/tests/sql_builder_test.go
 --- a/tests/sql_builder_test.go
 +++ b/tests/sql_builder_test.go
-@@ -463,2 +463,9 @@ func assertEqualSQL(t *testing.T, expected string, actually string) {
+@@ -463,6 +463,13 @@
  	expected = replaceQuoteInSQL(expected)
  	actually = replaceQuoteInSQL(actually)
-+
+ 
 +	// Kingbase Oracle mode expresses LIMIT/OFFSET with OFFSET/FETCH.
 +	withOffset := regexp.MustCompile(`(?i)OFFSET (\d+) ROWS FETCH NEXT (\d+) ROWS? ONLY$`)
 +	actually = withOffset.ReplaceAllString(actually, `LIMIT $2 OFFSET $1`)
 +	fetchOnly := regexp.MustCompile(`(?i)FETCH NEXT (\d+) ROWS? ONLY$`)
 +	actually = fetchOnly.ReplaceAllString(actually, `LIMIT $1`)
 +
-@@ -489,8 +489,8 @@ func replaceQuoteInSQL(sql string) string {
++
+ 	// ignore updated_at value, because it's generated in Gorm internal, can't to mock value on update.
+ 	updatedAtRe := regexp.MustCompile(`(?i)"updated_at"=".+?"`)
+ 	actually = updatedAtRe.ReplaceAllString(actually, `"updated_at"=?`)
+@@ -489,7 +496,7 @@
  	switch DB.Dialector.Name() {
  	case "postgres", "gaussdb":
  		sql = strings.ReplaceAll(sql, `"`, `"`)
@@ -78,3 +72,27 @@ diff --git a/tests/sql_builder_test.go b/tests/sql_builder_test.go
  		sql = strings.ReplaceAll(sql, "`", `"`)
  	case "sqlserver":
  		sql = strings.ReplaceAll(sql, `'`, `"`)
+diff --git a/tests/tests_test.go b/tests/tests_test.go
+--- a/tests/tests_test.go
++++ b/tests/tests_test.go
+@@ -14,6 +14,7 @@
+ 	"gorm.io/driver/sqlite"
+ 	"gorm.io/driver/sqlserver"
+ 	"gorm.io/gorm"
++	kingbase "kingbase.com/gorm-driver-kingbase"
+ 	"gorm.io/gorm/logger"
+ 	. "gorm.io/gorm/utils/tests"
+ )
+@@ -52,6 +53,12 @@
+ func OpenTestConnection(cfg *gorm.Config) (db *gorm.DB, err error) {
+ 	dbDSN := os.Getenv("GORM_DSN")
+ 	switch os.Getenv("GORM_DIALECT") {
++	case "kingbase":
++		log.Println("testing KingbaseES through the external GORM Dialector...")
++		db, err = gorm.Open(kingbase.Open(dbDSN), cfg)
++		if err == nil && os.Getenv("KINGBASE_DEBUG_SQL") == "yes" {
++			db = db.Debug()
++		}
+ 	case "mysql":
+ 		log.Println("testing mysql...")
+ 		if dbDSN == "" {

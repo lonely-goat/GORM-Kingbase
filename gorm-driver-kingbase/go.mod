@@ -3,7 +3,7 @@ module kingbase.com/gorm-driver-kingbase
 go 1.22
 
 require (
-	gorm.io/gorm v1.31.1
+	gorm.io/gorm v1.31.2
 	kingbase.com/gokb v0.0.0
 )
 

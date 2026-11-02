@@ -9,8 +9,7 @@ diff --git a/tests/sql_builder_test.go b/tests/sql_builder_test.go
  	"regexp"
  	"strings"
  	"testing"
-@@ -476,7 +477,11 @@ func assertEqualSQL(t *testing.T, expected string, actually string) {
- 	actually = strings.TrimSpace(actually)
+@@ -484,7 +485,11 @@
  	expected = strings.TrimSpace(expected)
  
  	if actually != expected {
@@ -22,3 +21,4 @@ diff --git a/tests/sql_builder_test.go b/tests/sql_builder_test.go
 +		}
  	}
  }
+ 

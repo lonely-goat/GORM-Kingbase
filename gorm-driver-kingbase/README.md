@@ -8,7 +8,7 @@
 |---|---|
 | Go 模块 | `kingbase.com/gorm-driver-kingbase` |
 | 最低语言版本声明 | Go 1.22 |
-| GORM 依赖与回归基线 | `gorm.io/gorm v1.31.1` |
+| GORM 依赖与回归基线 | `gorm.io/gorm v1.31.2` |
 | gokb | `v0.0.0`，通过 `../third_party/gokb` 引用随仓库保留的配套源码 |
 | 已有实库验证环境 | Linux amd64、Go 1.26.2、KingbaseES V009R001C010 双模式 |
 

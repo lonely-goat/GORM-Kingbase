@@ -8,12 +8,12 @@
 
 | 对照层 | 实际源码根目录 | 本文用途 |
 |---|---|---|
-| GORM 核心 v1.31.1 | `gorm.io/gorm v1.31.1` | 解释 Open、Session、Schema、Statement、Callback、Scan、AutoMigrate、事务和关联原来怎样工作 |
+| GORM 核心 v1.31.2 | `gorm.io/gorm v1.31.2` | 解释 Open、Session、Schema、Statement、Callback、Scan、AutoMigrate、事务和关联原来怎样工作 |
 | 原 MySQL 方言 v1.6.0 | `gorm.io/driver/mysql v1.6.0` | 对比原生 MySQL 的连接、类型、冲突、迁移和错误处理 |
 | Oracle 示例方言 v1.1.2 | `github.com/oracle-samples/gorm-oracle v1.1.2` | 对比该版本面向 Oracle/godror 的类型、RETURNING INTO、MERGE 和目录查询 |
 | 本项目新方言 | 仓库的 `gorm-driver-kingbase/` 目录 | 记录通过 gokb 适配金仓两种模式的实际新增代码 |
 
-方言实际引用 GORM v1.31.1；配套 gokb 通过指向仓库 `third_party/gokb/` 的相对路径 replace 提供。MySQL、Oracle 方言是比较基线，不是新方言的运行依赖。[依赖声明][k-mod]
+方言实际引用 GORM v1.31.2；配套 gokb 通过指向仓库 `third_party/gokb/` 的相对路径 replace 提供。MySQL、Oracle 方言是比较基线，不是新方言的运行依赖。[依赖声明][k-mod]
 
 对照时已核查三个比较基线的 Go 源码与模块下载归档一致。开发工作区另有 GORM 核心研究副本，与当前依赖版本存在差异；这些差异不计入金仓适配修改，也不作为本仓库运行依赖。
 
@@ -314,9 +314,9 @@
 
 **新增缺表处理：** 列查询为空时再次检查表目录；确实不存在时返回错误，避免“缺表”和合法空集合混淆。[缺表分支][k-missing-table]
 
-### 5.5 新增元信息补齐，避开核心空指针回退
+### 5.5 元信息补齐与新版核心空指针保护
 
-**原来：** [v1.31.1 ColumnType.Length/DecimalSize/ScanType][g-column-access] 在相应缓存字段未设置时直接访问 SQLColumnType。新实现直接构造目录元信息，没有必然存在的 `*sql.ColumnType`。
+**版本变化：** v1.31.1 在相应缓存字段未设置时直接访问 SQLColumnType；[v1.31.2 ColumnType.Length/DecimalSize/ScanType][g-column-access] 已增加空指针保护。本适配器直接构造目录元信息，仍需补齐长度、精度和扫描类型，而不是只依赖核心的零值回退。
 
 **现在：** [completeColumnTypeMetadata][k-complete-columns] 对不适用/缺失长度、精度、标度补 Valid 的 0，对 ScanType 用 [scanTypeForDatabaseType][k-scan-type] 提供反射类型；[buildColumnTypeName][k-column-name] 重建带长度或精度的类型表示。不修改核心访问器。
 
@@ -574,59 +574,59 @@
 [k-normalize-default]: ../migrator_columns.go#L195
 [k-mysql-metadata]: ../migrator_mysql.go#L6
 [k-oracle-metadata]: ../migrator_oracle.go#L5
-[g-open]: https://github.com/go-gorm/gorm/blob/v1.31.1/gorm.go#L132
-[g-init-cleanup]: https://github.com/go-gorm/gorm/blob/v1.31.1/gorm.go#L204
-[g-default-name]: https://github.com/go-gorm/gorm/blob/v1.31.1/gorm.go#L172
-[g-session]: https://github.com/go-gorm/gorm/blob/v1.31.1/gorm.go#L250
-[g-context]: https://github.com/go-gorm/gorm/blob/v1.31.1/gorm.go#L352
-[g-error]: https://github.com/go-gorm/gorm/blob/v1.31.1/gorm.go#L394
-[g-db]: https://github.com/go-gorm/gorm/blob/v1.31.1/gorm.go#L412
-[g-prepared]: https://github.com/go-gorm/gorm/blob/v1.31.1/prepare_stmt.go#L1
-[g-savepoint-interface]: https://github.com/go-gorm/gorm/blob/v1.31.1/interfaces.go#L41
-[g-schema]: https://github.com/go-gorm/gorm/blob/v1.31.1/schema/schema.go#L133
-[g-field]: https://github.com/go-gorm/gorm/blob/v1.31.1/schema/field.go#L106
-[g-format-name]: https://github.com/go-gorm/gorm/blob/v1.31.1/schema/naming.go#L98
-[g-addvar]: https://github.com/go-gorm/gorm/blob/v1.31.1/statement.go#L175
-[g-build]: https://github.com/go-gorm/gorm/blob/v1.31.1/statement.go#L493
-[g-limit]: https://github.com/go-gorm/gorm/blob/v1.31.1/clause/limit.go#L15
-[g-callbacks]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/callbacks.go#L22
-[g-create]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/create.go#L37
-[g-returning]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/create.go#L80
-[g-last-id]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/create.go#L142
-[g-update]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/update.go#L56
-[g-delete]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/delete.go#L113
-[g-soft-delete]: https://github.com/go-gorm/gorm/blob/v1.31.1/soft_delete.go#L1
-[g-scan]: https://github.com/go-gorm/gorm/blob/v1.31.1/scan.go#L126
-[g-map-scan]: https://github.com/go-gorm/gorm/blob/v1.31.1/scan.go#L166
-[g-connection]: https://github.com/go-gorm/gorm/blob/v1.31.1/finisher_api.go#L598
-[g-transaction]: https://github.com/go-gorm/gorm/blob/v1.31.1/finisher_api.go#L622
-[g-begin]: https://github.com/go-gorm/gorm/blob/v1.31.1/finisher_api.go#L665
-[g-commit]: https://github.com/go-gorm/gorm/blob/v1.31.1/finisher_api.go#L701
-[g-core-savepoint]: https://github.com/go-gorm/gorm/blob/v1.31.1/finisher_api.go#L722
-[g-default-tx]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/transaction.go#L7
-[g-mig-type]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L78
-[g-full-type]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L90
-[g-query-exec]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L110
-[g-automigrate]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L121
-[g-create-table]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L215
-[g-alter-column]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L411
-[g-migrate-column]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L469
-[g-unique]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L594
-[g-columns]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L615
-[g-create-constraint]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L757
-[g-create-index]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L830
-[g-drop-index]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/migrator.go#L865
-[g-column-access]: https://github.com/go-gorm/gorm/blob/v1.31.1/migrator/column_type.go#L62
-[g-relations]: https://github.com/go-gorm/gorm/blob/v1.31.1/schema/relationship.go#L65
-[g-rel-constraint]: https://github.com/go-gorm/gorm/blob/v1.31.1/schema/relationship.go#L638
-[g-association]: https://github.com/go-gorm/gorm/blob/v1.31.1/association.go#L21
-[g-assoc-delete]: https://github.com/go-gorm/gorm/blob/v1.31.1/association.go#L199
-[g-preload]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/preload.go#L185
-[g-query]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/query.go#L36
-[g-save-before]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/associations.go#L13
-[g-save-after]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/associations.go#L110
-[g-rel-conflict]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/associations.go#L360
-[g-save-assoc]: https://github.com/go-gorm/gorm/blob/v1.31.1/callbacks/associations.go#L378
+[g-open]: https://github.com/go-gorm/gorm/blob/v1.31.2/gorm.go#L138
+[g-init-cleanup]: https://github.com/go-gorm/gorm/blob/v1.31.2/gorm.go#L210
+[g-default-name]: https://github.com/go-gorm/gorm/blob/v1.31.2/gorm.go#L178
+[g-session]: https://github.com/go-gorm/gorm/blob/v1.31.2/gorm.go#L261
+[g-context]: https://github.com/go-gorm/gorm/blob/v1.31.2/gorm.go#L363
+[g-error]: https://github.com/go-gorm/gorm/blob/v1.31.2/gorm.go#L405
+[g-db]: https://github.com/go-gorm/gorm/blob/v1.31.2/gorm.go#L426
+[g-prepared]: https://github.com/go-gorm/gorm/blob/v1.31.2/prepare_stmt.go#L1
+[g-savepoint-interface]: https://github.com/go-gorm/gorm/blob/v1.31.2/interfaces.go#L41
+[g-schema]: https://github.com/go-gorm/gorm/blob/v1.31.2/schema/schema.go#L134
+[g-field]: https://github.com/go-gorm/gorm/blob/v1.31.2/schema/field.go#L106
+[g-format-name]: https://github.com/go-gorm/gorm/blob/v1.31.2/schema/naming.go#L98
+[g-addvar]: https://github.com/go-gorm/gorm/blob/v1.31.2/statement.go#L175
+[g-build]: https://github.com/go-gorm/gorm/blob/v1.31.2/statement.go#L493
+[g-limit]: https://github.com/go-gorm/gorm/blob/v1.31.2/clause/limit.go#L15
+[g-callbacks]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/callbacks.go#L23
+[g-create]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/create.go#L37
+[g-returning]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/create.go#L80
+[g-last-id]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/create.go#L142
+[g-update]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/update.go#L56
+[g-delete]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/delete.go#L113
+[g-soft-delete]: https://github.com/go-gorm/gorm/blob/v1.31.2/soft_delete.go#L1
+[g-scan]: https://github.com/go-gorm/gorm/blob/v1.31.2/scan.go#L126
+[g-map-scan]: https://github.com/go-gorm/gorm/blob/v1.31.2/scan.go#L166
+[g-connection]: https://github.com/go-gorm/gorm/blob/v1.31.2/finisher_api.go#L613
+[g-transaction]: https://github.com/go-gorm/gorm/blob/v1.31.2/finisher_api.go#L637
+[g-begin]: https://github.com/go-gorm/gorm/blob/v1.31.2/finisher_api.go#L680
+[g-commit]: https://github.com/go-gorm/gorm/blob/v1.31.2/finisher_api.go#L716
+[g-core-savepoint]: https://github.com/go-gorm/gorm/blob/v1.31.2/finisher_api.go#L737
+[g-default-tx]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/transaction.go#L7
+[g-mig-type]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L79
+[g-full-type]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L91
+[g-query-exec]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L111
+[g-automigrate]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L122
+[g-create-table]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L216
+[g-alter-column]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L412
+[g-migrate-column]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L470
+[g-unique]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L599
+[g-columns]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L620
+[g-create-constraint]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L762
+[g-create-index]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L835
+[g-drop-index]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/migrator.go#L870
+[g-column-access]: https://github.com/go-gorm/gorm/blob/v1.31.2/migrator/column_type.go#L68
+[g-relations]: https://github.com/go-gorm/gorm/blob/v1.31.2/schema/relationship.go#L65
+[g-rel-constraint]: https://github.com/go-gorm/gorm/blob/v1.31.2/schema/relationship.go#L638
+[g-association]: https://github.com/go-gorm/gorm/blob/v1.31.2/association.go#L21
+[g-assoc-delete]: https://github.com/go-gorm/gorm/blob/v1.31.2/association.go#L199
+[g-preload]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/preload.go#L185
+[g-query]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/query.go#L36
+[g-save-before]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/associations.go#L13
+[g-save-after]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/associations.go#L110
+[g-rel-conflict]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/associations.go#L360
+[g-save-assoc]: https://github.com/go-gorm/gorm/blob/v1.31.2/callbacks/associations.go#L378
 [m-open]: https://github.com/go-gorm/mysql/blob/v1.6.0/mysql.go#L69
 [m-apply]: https://github.com/go-gorm/mysql/blob/v1.6.0/mysql.go#L96
 [m-init]: https://github.com/go-gorm/mysql/blob/v1.6.0/mysql.go#L110

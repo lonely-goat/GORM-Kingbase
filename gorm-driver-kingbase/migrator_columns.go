@@ -132,11 +132,11 @@ func (m Migrator) ColumnTypes(value interface{}) ([]gorm.ColumnType, error) {
 	return columnTypes, err
 }
 
-// completeColumnTypeMetadata prevents GORM v1.31.1's ColumnType accessors from
-// falling through to a nil *sql.ColumnType. information_schema correctly returns
-// NULL length/precision for types where the concept does not apply (for example
-// bigint), but the upstream accessors before the nil-guard fix still call
-// SQLColumnType.Length/DecimalSize/ScanType in that case.
+// completeColumnTypeMetadata completes catalog-derived column metadata.
+// It originally avoided GORM v1.31.1's nil *sql.ColumnType fallback. GORM
+// v1.31.2 guards that pointer, but a nil-safe zero value does not supply the
+// length/precision/scan-type contract expected by this adapter. Keep this
+// normalization for types whose catalog size is NULL, such as bigint.
 //
 // A valid zero means "this type has no applicable length/precision". It is safer
 // than inventing a database size and preserves AutoMigrate's comparison semantics.

@@ -97,7 +97,7 @@ def main():
 
     shutil.copytree(driver, adapter_copy, ignore=ignore_adapter_files)
     shutil.copytree(sdk, sdk_copy, ignore=ignore)
-    for name in ("README.md", ".gitignore", "THIRD_PARTY_NOTICES.md"):
+    for name in ("README.md", ".gitignore", ".gitattributes", "THIRD_PARTY_NOTICES.md"):
         shutil.copy2(repository / name, destination / name)
     for name in ("README.md", "gokb-source.json"):
         shutil.copy2(third_party / name, destination / "third_party" / name)
