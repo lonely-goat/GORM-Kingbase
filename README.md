@@ -2,6 +2,8 @@
 
 本项目通过 `kingbase.com/gokb` 连接 KingbaseES，支持 MySQL、Oracle 两种兼容模式。交付目录包含适配器、配套 gokb 源码、测试、示例和固定版本的 GORM 回归测试基线。
 
+后续维护先读[维护导读](gorm-driver-kingbase/docs/维护导读.md)：记录两个分支和运行依赖的关系、源码阅读顺序、测试入口、提交和再次交付步骤。逐文件职责见[文件清单](gorm-driver-kingbase/docs/文件清单.md)。
+
 ## 下载后运行
 
 解压完整源码包，或克隆后进入仓库根目录。保留以下相对目录关系：

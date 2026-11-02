@@ -2,6 +2,8 @@
 
 独立的 GORM v2 方言，底层使用 `kingbase.com/gokb`，支持 KingbaseES 的 MySQL、Oracle 两种兼容模式，通过 Dialector、Clause Builder、Callback 和 Migrator 扩展 GORM。
 
+第一次读源码或接着维护时，先看[维护导读](docs/维护导读.md)，按问题定位文件和测试入口。
+
 | 项目 | 当前配置 |
 |---|---|
 | Go 模块 | `kingbase.com/gorm-driver-kingbase` |

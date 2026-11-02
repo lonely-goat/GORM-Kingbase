@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+# 仓库统一测试入口：在完整 Git 工作目录根目录执行。
+# 不带参数或使用 unit：只做构建、无数据库测试和 vet，不连接真实数据库。
+# integration：要求两种模式的 DSN 和 DDL 开关，真正通过 gokb 连接金仓测试库。
+# race、official-mysql、official-oracle 的前提及结果边界见适配器 docs/维护导读.md。
 set -euo pipefail
 
 repository_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)

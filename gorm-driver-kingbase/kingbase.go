@@ -1,6 +1,7 @@
-// Package kingbase provides an independent GORM v2 Dialector for KingbaseES.
-// It uses gokb as the database/sql driver and supports KingbaseES MySQL and Oracle
-// compatibility modes without modifying gorm.io/gorm.
+// Package kingbase 通过独立 Dialector 将 GORM V2 接入金仓的 MySQL、Oracle 两种模式。
+// GORM 核心由 go.mod 中的官方模块依赖提供，底层 database/sql 驱动为配套 gokb。
+// 阅读入口为 Open/New 和 Initialize；模式、SQL 语法、字段类型、迁移分别拆分到对应文件。
+// 完整的源码阅读顺序和维护步骤见 docs/维护导读.md。
 package kingbase
 
 import (

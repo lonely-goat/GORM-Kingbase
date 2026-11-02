@@ -10,16 +10,16 @@
   "official_gorm_database_regression_run": false,
   "files": {
     ".gitignore": "6555b6c3f5bb884d865408706a2186c29f38cf45cfb74c5ecf5dabf8ea0938c5",
-    "README.md": "4ac5db8b1b40dab276605291d13ee2de13d63104530caf7f09ba246cb560c4a2",
+    "README.md": "7f5ee9b2061db4596039fc06a90560ce05a8394501d3bb522e6379810b743c03",
     "THIRD_PARTY_NOTICES.md": "8146087bb77c4bb7d87ed434fea242aa760a4386d536c54949555456fbd0271d",
     "gorm-driver-kingbase/.gitignore": "b12985a8c7e865a6285db32431b8a9b213718818dce5a5053dde2a6bcbfa0a64",
     "gorm-driver-kingbase/LICENSE": "9a7ae3e4859786dde7532260a38855b0974675a89f77863b33340366c9520887",
-    "gorm-driver-kingbase/README.md": "eb3d693c09de181ad6411b683a58b08030465a417e21fb2cfab1442f39d74fca",
+    "gorm-driver-kingbase/README.md": "c0da0584aa2c9b5dca16432664c76c7aa5959c27ae176ba0614f2ca50653a5bf",
     "gorm-driver-kingbase/clause.go": "43eee09c3cb9cb6072b6d66c64be1ac399cdc5f670af5b7e97c4aa1581fb6410",
     "gorm-driver-kingbase/cmd/autodetect/main.go": "264b55b88266001d6f80ddbf88dd3f2786f38ab4421b53f76955cf6a2307516b",
     "gorm-driver-kingbase/compatibility_test.go": "e9f94226c55564c7a254a4426decd7cbc5236c96a02e1a3bf1cd19cdf71d4edb",
     "gorm-driver-kingbase/docs/GORM-v2-KingbaseES代码修改说明-按七项功能.md": "622155b834185498348baa4bcb92f88c9cc17ffc1e270b8213859cd524fe34ba",
-    "gorm-driver-kingbase/docs/development.md": "9fb2a0915ec3993376b18a597035ea69d3a025c6bab643db1afe8e7c44a1c0d2",
+    "gorm-driver-kingbase/docs/development.md": "2b1b0ca57e6bd0cd86ac992132a0cbf3615ef3a13288b56194db336ddba6b847",
     "gorm-driver-kingbase/docs/examples/association-management/main.go": "78f2e3bcf723be97456361c240c087874508f0a0f8df7ae703ec87019f37c0d0",
     "gorm-driver-kingbase/docs/examples/connection-session/main.go": "fcfe2f4affc8099177629576fa8d747e417894e91e82847566011cb07d578ab3",
     "gorm-driver-kingbase/docs/examples/data-results/main.go": "3ac9d2fc8b6f5fe99956a5a44f41d3e97ea324626a46c7a4efd1c567b5289a10",
@@ -28,7 +28,8 @@
     "gorm-driver-kingbase/docs/examples/sql-building/main.go": "fadabf9178736c9e3568646f651974adf4e0b1f5c36a95fba5b56ef8e9f4e276",
     "gorm-driver-kingbase/docs/examples/transaction-management/main.go": "9df7dc3e32726d4b44e1ea2a53621ba673ea99ede37f02a1737c8ee3a8385ab7",
     "gorm-driver-kingbase/docs/testing.md": "80901833199a1b99a19dd77bb17332cdc822fb31cb9cbeb79e7a5e63518fa621",
-    "gorm-driver-kingbase/docs/文件清单.md": "7ba45dc572f342e6fff14f7e159d60d5808b72d0086966b15bda4e5a88f07381",
+    "gorm-driver-kingbase/docs/文件清单.md": "a6bf8569f046d3efcd6ecd30512fd885ddf3351eb507372c8521db268fd80ff1",
+    "gorm-driver-kingbase/docs/维护导读.md": "bdbe5ab2d59539d10c949b87493aa08722c6a7bf2e1d26b29551a85f2deb51cc",
     "gorm-driver-kingbase/errors.go": "1ceec0c75400a262762bfb762f895c10a474b4c63c79042972f9f60ebbf9848e",
     "gorm-driver-kingbase/go.mod": "ac99858dc83948c94d92b432f412b7afa3f8d68bcbe504d7e7e65005c5541332",
     "gorm-driver-kingbase/go.sum": "127a517f24b513f4be365be5a980fa70b8c255848ad9e0c46ba926df73e04c0b",
@@ -46,7 +47,7 @@
     "gorm-driver-kingbase/integration/quoted_index_name_test.go": "4c246f301805d99e1d78e1a06e42c0a1a5db899012bb14187768073f100d13cc",
     "gorm-driver-kingbase/integration/skipped_coverage_test.go": "7ff5b4de7a4b6218c2140b6a2f3069a256ed672896c5729ee5117ce074107df1",
     "gorm-driver-kingbase/integration/submission_regression_test.go": "3ea5af76cbb3a6eee5f894d07a48aeffe2927ac4fd81c64f6ef92f9bc57ff30d",
-    "gorm-driver-kingbase/kingbase.go": "b8125960cda4b6d2ebb3d8df1e64e5f5b907553c34b906222f46816446167449",
+    "gorm-driver-kingbase/kingbase.go": "0df6531be49bef72cc4b20268f5b6a4f259a742ac5429e5cf25789f163801cdc",
     "gorm-driver-kingbase/kingbase_test.go": "5d25657d5d8b7d48f7fc03e7207d35f5d24d0be337f74a455ff03465ba7cd856",
     "gorm-driver-kingbase/map_returning.go": "5820bcfca329e509ad39e34b0f5dc929c5209f2ff869976001581e7a2bcb27f1",
     "gorm-driver-kingbase/migrator.go": "40230c69ca51ce03f2256637caab0223794e0c273dc57b67ccc537fa87dc01a4",
@@ -69,8 +70,9 @@
     "gorm-driver-kingbase/scripts/verify-assertion-regressions.py": "082b9660f4025f9d5fe007a5f9ba584744c6019583165c59709f14e632a77be1",
     "gorm-driver-kingbase/scripts/verify-expectations.py": "bcbc00f5048d95fc74e62048f9a3f432da9bfa175324cc9fb0ef37a5183a4381",
     "gorm-driver-kingbase/testdata/upstream/gorm-v1.31.1.tar.gz": "03f353cf1c953a60102c8ec84cf550daf278b932acf3aed2b1e335909ceff65c",
-    "scripts/test.sh": "161ac6daca9154b5526e0e67c89793aae7193c2447eaf262809dc9696988999e",
+    "scripts/test.sh": "e4e2f14545865b0996406ba01bd1bd84c46337b11f52b9f0d2d76b4f8baa21b9",
     "third_party/README.md": "3b90507f16927b31729af38da5674712ca9b66093d3b6033cab8eeecbbd2ff40",
+    "third_party/gokb-source.json": "e09dff2ec7fb9be5f880c53c972e5b1a598ed43560a268829da167a7291106a2",
     "third_party/gokb/array.go": "3fbc28d470d6ed7fa4228eedf41f82cee8e4761276ddb34ccb6078dfb87a006e",
     "third_party/gokb/buf.go": "20c6b67a3253ad14738f2e77071434a2a43abf1758049ae6bb2878009c2f6d9b",
     "third_party/gokb/conn.go": "6f8038f7799dbe1192c64127eb9a6cb2dbd5125a420b5675d526afc718db6071",
@@ -101,7 +103,16 @@
     "third_party/gokb/url.go": "d2d23175776797cdb2715c676281a088e2cc6ef25991e6c6948547d5e7fb40c5",
     "third_party/gokb/user_posix.go": "dd2946617398e5f774cca6beb6d957e8ab7f94591c352f3cee8f2255df81f646",
     "third_party/gokb/user_windows.go": "49b9782a0e7782148bd9c508008aa80da975ef44e82e5dc5f9bc06c6a169e070",
-    "third_party/gokb/uuid.go": "26446c0832758e312d6bea4f9d2ff9b267ffd1e155974b43a082bafd1b9bff4d",
-    "third_party/gokb-source.json": "e09dff2ec7fb9be5f880c53c972e5b1a598ed43560a268829da167a7291106a2"
+    "third_party/gokb/uuid.go": "26446c0832758e312d6bea4f9d2ff9b267ffd1e155974b43a082bafd1b9bff4d"
+  },
+  "runtime_validation_reference": {
+    "commit": "d7258ce575d5985c9a3b24fb6caa67f9140d859a",
+    "carried_forward_for_documentation_only_change": true,
+    "unchanged_implementation_and_test_runner_verified": true
+  },
+  "documentation_checks": {
+    "date": "2026-11-02",
+    "local_markdown_links_verified": true,
+    "bash_syntax_verified": true
   }
 }
