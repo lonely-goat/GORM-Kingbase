@@ -1,0 +1,13 @@
+/coverage.out
+/coverage.html
+/.idea/
+/.vscode/
+/.env
+/.env.*
+__pycache__/
+*.py[cod]
+*.test
+*.log
+/autodetect
+/test-results/
+/dist/

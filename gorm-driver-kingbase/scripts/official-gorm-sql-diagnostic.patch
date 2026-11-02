@@ -1,0 +1,24 @@
+diff --git a/tests/sql_builder_test.go b/tests/sql_builder_test.go
+--- a/tests/sql_builder_test.go
++++ b/tests/sql_builder_test.go
+@@ -1,6 +1,7 @@
+ package tests_test
+ 
+ import (
++	"os"
+ 	"regexp"
+ 	"strings"
+ 	"testing"
+@@ -476,7 +477,11 @@ func assertEqualSQL(t *testing.T, expected string, actually string) {
+ 	actually = strings.TrimSpace(actually)
+ 	expected = strings.TrimSpace(expected)
+ 
+ 	if actually != expected {
+-		t.Fatalf("\nexpected: %s\nactually: %s", expected, actually)
++		if os.Getenv("KINGBASE_DIAGNOSTIC_SQL") == "yes" {
++			t.Errorf("\nexpected: %s\nactually: %s", expected, actually)
++		} else {
++			t.Fatalf("\nexpected: %s\nactually: %s", expected, actually)
++		}
+ 	}
+ }

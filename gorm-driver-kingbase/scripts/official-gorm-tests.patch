@@ -1,0 +1,80 @@
+diff --git a/tests/tests_test.go b/tests/tests_test.go
+--- a/tests/tests_test.go
++++ b/tests/tests_test.go
+@@ -13,6 +13,7 @@ import (
+ 	"gorm.io/driver/sqlite"
+ 	"gorm.io/driver/sqlserver"
+ 	"gorm.io/gorm"
++	kingbase "kingbase.com/gorm-driver-kingbase"
+ 	"gorm.io/gorm/logger"
+ 	. "gorm.io/gorm/utils/tests"
+ )
+@@ -51,6 +52,12 @@ func OpenTestConnection(cfg *gorm.Config) (db *gorm.DB, err error) {
+ 	dbDSN := os.Getenv("GORM_DSN")
+ 	switch os.Getenv("GORM_DIALECT") {
++	case "kingbase":
++		log.Println("testing KingbaseES through the external GORM Dialector...")
++		db, err = gorm.Open(kingbase.Open(dbDSN), cfg)
++		if err == nil && os.Getenv("KINGBASE_DEBUG_SQL") == "yes" {
++			db = db.Debug()
++		}
+ 	case "mysql":
+ 		log.Println("testing mysql...")
+ 		if dbDSN == "" {
+ 			dbDSN = mysqlDSN
+diff --git a/tests/multi_primary_keys_test.go b/tests/multi_primary_keys_test.go
+--- a/tests/multi_primary_keys_test.go
++++ b/tests/multi_primary_keys_test.go
+@@ -41,7 +41,7 @@ func TestManyToManyWithMultiPrimaryKeys(t *testing.T) {
+ 		t.Skip("skip sqlite, sqlserver due to it doesn't support multiple primary keys with auto increment")
+ 	}
+ 
+-	if name := DB.Dialector.Name(); name == "postgres" || name == "mysql" || name == "gaussdb" {
++	if name := DB.Dialector.Name(); name == "postgres" || name == "mysql" || name == "gaussdb" || name == "kingbase" {
+ 		stmt := gorm.Statement{DB: DB}
+ 		stmt.Parse(&Blog{})
+ 		stmt.Schema.LookUpField("ID").Unique = true
+@@ -143,8 +143,8 @@ func TestManyToManyWithCustomizedForeignKeys(t *testing.T) {
+ 		t.Skip("skip mysql 8.4+ due to stricter foreign key requirements for non-unique referenced keys")
+ 	}
+ 
+-	if name := DB.Dialector.Name(); name == "postgres" {
+-		t.Skip("skip postgres due to it only allow unique constraint matching given keys")
++	if name := DB.Dialector.Name(); name == "postgres" || name == "kingbase" {
++		t.Skip("skip postgres/kingbase: foreign keys require a matching unique constraint")
+ 	}
+ 	if name := DB.Dialector.Name(); name == "gaussdb" {
+ 		t.Skip("skip gaussdb due to it only allow unique constraint matching given keys")
+@@ -271,8 +271,8 @@ func TestManyToManyWithCustomizedForeignKeys2(t *testing.T) {
+ 		t.Skip("skip sqlite, sqlserver due to it doesn't support multiple primary keys with auto increment")
+ 	}
+ 
+-	if name := DB.Dialector.Name(); name == "postgres" || name == "mysql" {
+-		t.Skip("skip postgres due to it only allow unique constraint matching given keys")
++	if name := DB.Dialector.Name(); name == "postgres" || name == "mysql" || name == "kingbase" {
++		t.Skip("skip postgres/mysql/kingbase: foreign keys require a matching unique constraint")
+ 	}
+ 
+ 	if name := DB.Dialector.Name(); name == "gaussdb" {
+diff --git a/tests/sql_builder_test.go b/tests/sql_builder_test.go
+--- a/tests/sql_builder_test.go
++++ b/tests/sql_builder_test.go
+@@ -463,2 +463,9 @@ func assertEqualSQL(t *testing.T, expected string, actually string) {
+ 	expected = replaceQuoteInSQL(expected)
+ 	actually = replaceQuoteInSQL(actually)
++
++	// Kingbase Oracle mode expresses LIMIT/OFFSET with OFFSET/FETCH.
++	withOffset := regexp.MustCompile(`(?i)OFFSET (\d+) ROWS FETCH NEXT (\d+) ROWS? ONLY$`)
++	actually = withOffset.ReplaceAllString(actually, `LIMIT $2 OFFSET $1`)
++	fetchOnly := regexp.MustCompile(`(?i)FETCH NEXT (\d+) ROWS? ONLY$`)
++	actually = fetchOnly.ReplaceAllString(actually, `LIMIT $1`)
++
+@@ -489,8 +489,8 @@ func replaceQuoteInSQL(sql string) string {
+ 	switch DB.Dialector.Name() {
+ 	case "postgres", "gaussdb":
+ 		sql = strings.ReplaceAll(sql, `"`, `"`)
+-	case "mysql", "sqlite":
++	case "mysql", "sqlite", "kingbase":
+ 		sql = strings.ReplaceAll(sql, "`", `"`)
+ 	case "sqlserver":
+ 		sql = strings.ReplaceAll(sql, `'`, `"`)

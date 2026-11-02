@@ -1,0 +1,7 @@
+{
+  "version": "v1.31.1",
+  "url": "https://codeload.github.com/go-gorm/gorm/tar.gz/refs/tags/v1.31.1",
+  "archive": "testdata/upstream/gorm-v1.31.1.tar.gz",
+  "sha256": "03f353cf1c953a60102c8ec84cf550daf278b932acf3aed2b1e335909ceff65c",
+  "archive_root": "gorm-1.31.1"
+}
